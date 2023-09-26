@@ -1,0 +1,470 @@
+@use 'font';
+@import 'variables';
+
+@keyframes startButtonShow {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes dots {
+  to {
+    clip-path: inset(0 -1ch 0 0)
+  }
+}
+
+.ClientChat {
+  position: fixed;
+  right: 50px;
+  bottom: 0;
+  z-index: 1499;
+  width: 350px;
+  box-sizing: border-box;
+  font-family: Roboto;
+  font-size: 14px;
+  line-height: 1.2em;
+  color: black;
+  border: 1px solid $c2;
+  box-shadow: $boxShadow;
+  border-radius: 4px 4px 0 0;
+  padding: 14px;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-rows: auto 335px auto;
+  grid-template-columns: 322px;
+  * {
+    box-sizing: border-box;
+    outline: none;
+  }
+  &-Head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &-Close {
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: $c2;
+      transition: all .2s ease-in-out 0s;
+    }
+    &:hover {
+      svg {
+        fill: $c1
+      }
+    }
+  }
+  &-Start {
+    position: fixed;
+    right: 50px;
+    z-index: 99999;
+    bottom: 50px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    background: $c1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: $boxShadow;
+    transition: transform .2s ease-in-out 0s;
+    animation: startButtonShow .2s ease-in 0s forwards;
+    path {
+      fill: white;
+    }
+    circle {
+      stroke: white;
+    }
+  }
+  &-Button {
+    height: 30px;
+    width: 30px;
+    background: $c1;
+    margin: 0;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 5;
+    svg {
+      fill: white;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &-ChatWindow {
+    max-height: 335px;
+    position: relative;
+    &:before {
+      background: linear-gradient(to bottom, white, rgba(white, 0));
+      top: 0;
+    }
+    &:after {
+      background: linear-gradient(to top, white, rgba(white, 0));
+      bottom: 0;
+    }
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      left: 0;
+      height: 20px;
+      display: block;
+      z-index: 1;
+    }
+    &_Info {
+      font-size: 12px;
+      line-height: 1em;
+      position: absolute;
+      opacity: .5;
+      left: 0;
+      bottom: 0;
+      z-index: 10;
+      clip-path: inset(0 1ch 0 0);
+      animation: dots 1s steps(4) infinite;
+    }
+    &_Wrap {
+      display: grid;
+      grid-gap: 10px;
+      padding: 20px 15px 20px 0;
+    }
+    &_Preloader {
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      margin: 0 0 10px;
+    }
+    .simplebar-scrollbar {
+      background: $c1;
+      border-radius: 50%;
+    }
+    .simplebar-track {
+      right: -7px;
+      z-index: 5;
+      &.simplebar-vertical {
+        width: 18px;
+        top: 9px;
+        bottom: 9px;
+        .simplebar-scrollbar {
+          &::before {
+            display: none;
+          }
+        }
+        &:before {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 4px;
+          background: $c4;
+          margin: 0 auto;
+          left: 0;
+          border-radius: 4px;
+          right: 0;
+        }
+      }
+    }
+  }
+
+  &-Textarea {
+    font-family: Roboto;
+    font-size: 14px;
+    line-height: 1.2em;
+    color: black;
+  }
+
+  &-Pane {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 10px;
+    &_Upload {
+      display: grid;
+      gap: 10px;
+      align-items: flex-end;
+      grid-template-columns: 24px 1fr;
+      &-Info {
+        width: 100%;
+        padding: 10px;
+        display: grid;
+        grid-gap: 10px;
+        &>div {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-size: 12px;
+          font-weight: 500;
+          white-space: nowrap;
+        } 
+      }
+      &-List {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        &>div {
+          width: 128px;
+          height: 128px;
+          position: relative;
+          display: flex;
+          border: 1px solid $c4;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+          overflow: hidden;
+          &:hover {
+            .remove {
+              opacity: 1;
+              pointer-events: auto;
+              transform: scale(1);
+            }
+          }
+          .remove {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(white, .7);
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(.5);
+            transition: all .2s ease-in-out;
+            border: 1px solid $c4;
+            svg {
+              width: 100%;
+              height: 100%;
+              fill: black;
+            }
+          }
+        }
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      label {
+        width: 24px;
+        height: 24px;
+        overflow: hidden;
+        user-select: none;
+        cursor: pointer;
+        &:hover {
+          svg {
+            fill: $c1;
+          }
+        }
+        svg {
+          fill: $c3;
+          transition: all .2s ease-in-out 0s;
+        }
+      }
+    }
+    &_Input {
+      position: relative;
+      input[type=file] {
+        position: absolute;
+        width: 0;
+        height: 0;
+        opacity: 0;
+      }
+    }
+  }
+
+  &-Message {
+    border: 1px solid $c2;
+    padding: 10px;
+    display: grid;
+    grid-gap: 12px;
+    border-radius: 4px;
+    width: calc(100% - 40px);
+    background: white;
+    box-shadow: $boxShadow2;
+    &.FromUser {
+      justify-self: flex-end;
+      background: $c3;
+    }
+    &_Status {
+      display: flex;
+      justify-content: flex-end;
+      bottom: 0;
+      margin: -12px 0 0;
+      svg {
+        height: 15px;
+        width: 15px;
+        fill: $c1;
+      }
+    }
+    &_Text {
+      font-size: 12px;
+      p {
+        margin: .5em 0;
+        &:first-child{
+          margin-top: 0;
+        }
+        &:nth-last-child(1) {
+          margin-bottom: 0;
+        }
+      }
+    }
+    &_Date {
+      font-weight: 500;
+      font-size: 10px;
+    }
+    &_Info {
+      font-size: 12px;
+      display: grid;
+      grid-gap: 12px;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+    }
+    &_User {
+      display: grid;
+      grid-gap: 12px;
+      grid-template-columns: 24px auto;
+      align-items: center;
+      &>span {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: $c3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    &_UploadList {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+  
+    &_UploadItem {
+      width: 78px;
+      height: 78px;
+      position: relative;
+      border: 1px solid $c1;
+      border-radius: 4px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      .ClientChat-Pane_Upload-Info {
+        font-size: 10px;
+        gap: 5px;
+        span {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+      &:hover {
+        .ClientChat-Message_UploadItem-Remove {
+          opacity: 1;
+          transform: scale(1);
+          pointer-events: auto;
+        }
+      }
+      &-Remove {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(white, .7);
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(.5);
+        transition: all .2s ease-in-out;
+        border: 1px solid $c4;
+        z-index: 5;
+        svg {
+          width: 100%;
+          height: 100%;
+          fill: black;
+        }
+      }
+      .MuiCircularProgress-root {
+        color: $c1;
+        position: absolute;
+        & + * {
+          opacity: .3;
+        }
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      }
+      picture {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+
+  }
+  .ql-toolbar.ql-snow {
+    border-color: $c2;
+    border-radius: 4px 4px 0 0;
+    border-bottom: none;
+  }
+  .ql-editor {
+    height: auto;
+    height: 80px;
+  }
+  .ql-container {
+    font-family: Roboto;
+    height: 80px;
+    &.ql-snow {
+      border: 1px solid $c2;
+      border-radius: 0 0 4px 4px;
+      height: auto;
+    }
+  }
+}
